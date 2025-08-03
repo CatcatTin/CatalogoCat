@@ -172,8 +172,7 @@ export class ProductDisplay {
     if (!container) return
 
     container.innerHTML = `
-      <div class="subcategories-container">
-       <h3 class="category-title">${category}</h3>
+      <div class="subcategories-container">     
          <div class="subcategories-grid">
           ${subcategories.map(subcategory => `
             <div class="subcategory-card" data-category="${category}" data-subcategory="${subcategory}">
