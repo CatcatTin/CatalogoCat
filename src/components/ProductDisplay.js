@@ -173,7 +173,7 @@ export class ProductDisplay {
 
     container.innerHTML = `
       <div class="subcategories-container">
-      /* <h3 class="category-title">${category}</h3> */
+     // <h3 class="category-title">${category}</h3>
          <div class="subcategories-grid">
           ${subcategories.map(subcategory => `
             <div class="subcategory-card" data-category="${category}" data-subcategory="${subcategory}">
