@@ -143,14 +143,14 @@ CREATE TRIGGER update_products_updated_at
   EXECUTE FUNCTION update_updated_at_column();
 
 -- Insert sample products
---INSERT INTO products (name, description, price, image_url, category, stock, featured) VALUES
- -- ('iPhone 15 Pro', 'El último smartphone de Apple con tecnología avanzada', 999.99, 'https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg', 'Electrónicos', 25, true),
- -- ('MacBook Air M2', 'Laptop ultradelgada con chip M2 de Apple', 1299.99, 'https://images.pexels.com/photos/205421/pexels-photo-205421.jpeg', 'Electrónicos', 15, true),
- -- ('Camiseta Premium', 'Camiseta de algodón 100% orgánico', 29.99, 'https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg', 'Ropa', 100, false),
-  --('Zapatillas Running', 'Zapatillas deportivas para correr', 89.99, 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg', 'Deportes', 50, true),
- -- ('Sofá Moderno', 'Sofá de 3 plazas estilo moderno', 599.99, 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg', 'Hogar', 8, false),
- -- ('Libro de Programación', 'Guía completa de desarrollo web', 39.99, 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg', 'Libros', 30, false)
---ON CONFLICT DO NOTHING;
+INSERT INTO products (name, description, price, image_url, category, stock, featured) VALUES
+  ('iPhone 15 Pro', 'El último smartphone de Apple con tecnología avanzada', 999.99, 'https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg', 'Electrónicos', 25, true),
+  ('MacBook Air M2', 'Laptop ultradelgada con chip M2 de Apple', 1299.99, 'https://images.pexels.com/photos/205421/pexels-photo-205421.jpeg', 'Electrónicos', 15, true),
+  ('Camiseta Premium', 'Camiseta de algodón 100% orgánico', 29.99, 'https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg', 'Ropa', 100, false),
+  ('Zapatillas Running', 'Zapatillas deportivas para correr', 89.99, 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg', 'Deportes', 50, true),
+  ('Sofá Moderno', 'Sofá de 3 plazas estilo moderno', 599.99, 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg', 'Hogar', 8, false),
+  ('Libro de Programación', 'Guía completa de desarrollo web', 39.99, 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg', 'Libros', 30, false)
+ON CONFLICT DO NOTHING;
 
 /*
   # Add subcategories

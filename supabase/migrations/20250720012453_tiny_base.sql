@@ -227,13 +227,13 @@ CREATE POLICY "Orders are updatable by authenticated users"
 -- ============================================================================
 
 -- Insertar categorías de ejemplo
---INSERT INTO categories (name, description) VALUES
---('Electrónicos', 'Dispositivos electrónicos y tecnología'),
---('Ropa', 'Vestimenta y accesorios de moda'),
---('Hogar', 'Artículos para el hogar y decoración'),
---('Deportes', 'Equipamiento deportivo y fitness'),
---('Libros', 'Libros y material educativo'),
---('Juguetes', 'Juguetes y entretenimiento');
+INSERT INTO categories (name, description) VALUES
+('Climatización', 'Dispositivos electrónicos y tecnología'),
+('Tecnología', 'Vestimenta y accesorios de moda'),
+('Tv Audio y video', 'Artículos para el hogar y decoración'),
+('Electrodomésticos', 'Equipamiento deportivo y fitness'),
+('Deportes y exterior', 'Libros y material educativo'),
+('Deco Hogar', 'Juguetes y entretenimiento');
 
 -- Insertar subcategorías de ejemplo
 INSERT INTO subcategories (name, category_name) VALUES
@@ -271,7 +271,7 @@ INSERT INTO products (
   image_url, image1_url, image2_url, image3_url,
   category, subcategory, stock, featured
 ) VALUES
-('iPhone 15 Pro', 'Smartphone premium con tecnología avanzada', 'El iPhone 15 Pro representa la culminación de la innovación de Apple, con un diseño de titanio premium, el potente chip A17 Pro y un sistema de cámaras profesional que redefine la fotografía móvil.', 1450999.99, 1400799.99, true, 16, 'https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg', 'https://images.pexels.com/photos/1092644/pexels-photo-1092644.jpeg', 'https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg', 'https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg', 'Tecnología', 'Telefonos', 25, true),
+('iPhone 15 Pro', 'Smartphone premium con tecnología avanzada', 'El iPhone 15 Pro representa la culminación de la innovación de Apple, con un diseño de titanio premium, el potente chip A17 Pro y un sistema de cámaras profesional que redefine la fotografía móvil.', 1450999.99, 1400799.99, true, 16, 'https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg', 'https://images.pexels.com/photos/1092644/pexels-photo-1092644.jpeg', 'https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg', 'https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg', 'Tecnología', 'Telefonía', 25, true),
 
 ('MacBook Air M2', 'Laptop ultradelgada con chip M2', 'La MacBook Air con chip M2 ofrece un rendimiento excepcional en un diseño ultradelgado. Perfecta para profesionales que necesitan potencia y portabilidad.', 1000299.99, NULL, false, 18, 'https://images.pexels.com/photos/205421/pexels-photo-205421.jpeg', 'https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg', 'https://images.pexels.com/photos/18105/pexels-photo.jpg', 'https://images.pexels.com/photos/205421/pexels-photo-205421.jpeg', 'Tecnología', 'Computación', 15, true),
 
