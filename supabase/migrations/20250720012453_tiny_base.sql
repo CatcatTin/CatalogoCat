@@ -258,7 +258,7 @@ INSERT INTO subcategories (name, category_name) VALUES
   ('Electro Cocina','Electrodomesticos'),
   ('Electro Hogar','Electrodomesticos'),
   ('Auriculares y otros','Tecnología'),
-  ('Telefonos','Tecnología'),
+  ('Telefonía','Tecnología'),
   ('Computación','Tecnología'),
   ('Gamers','Tecnología'),
   ('Soportes','Tv Audio y Video'),
