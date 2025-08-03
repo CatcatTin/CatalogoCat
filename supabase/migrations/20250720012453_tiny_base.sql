@@ -228,12 +228,14 @@ CREATE POLICY "Orders are updatable by authenticated users"
 
 -- Insertar categorías de ejemplo
 INSERT INTO categories (name, description) VALUES
-('Electrónicos', 'Dispositivos electrónicos y tecnología'),
-('Ropa', 'Vestimenta y accesorios de moda'),
-('Hogar', 'Artículos para el hogar y decoración'),
-('Deportes', 'Equipamiento deportivo y fitness'),
-('Libros', 'Libros y material educativo'),
-('Juguetes', 'Juguetes y entretenimiento');
+('Climatización', 'templarse'),
+('Tecnología', 'mejorar y divertirse'),
+('Tv Audio y video', 'entretener'),
+('Electrodomésticos', 'para le hogar'),
+('Deportes y exterior', 'entrenar y disfrutar'),
+('Deco Hogar', 'decorar'),
+('Cuidado Personal', 'aseo'),
+('Herramientas y construcción', 'para trabajar');
 
 -- Insertar subcategorías de ejemplo
 INSERT INTO subcategories (name, category_name) VALUES
@@ -258,7 +260,7 @@ INSERT INTO subcategories (name, category_name) VALUES
   ('Electro Cocina','Electrodomesticos'),
   ('Electro Hogar','Electrodomesticos'),
   ('Auriculares y otros','Tecnología'),
-  ('Telefonos','Tecnología'),
+  ('Telefonía','Tecnología'),
   ('Computación','Tecnología'),
   ('Gamers','Tecnología'),
   ('Soportes','Tv Audio y Video'),
