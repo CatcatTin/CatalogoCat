@@ -156,8 +156,7 @@ export class ProductDisplay {
       
       if (subcategories.length > 1) {
         console.log('Rendering subcategories for:', category)
-        this.renderSubcategories(category, subcategories) console.log('Rendering products directly for:', category)
-        this.renderProducts(products, category)
+        this.renderSubcategories(category, subcategories)
       } else {
         console.log('Rendering products directly for:', category)
         this.renderProducts(products, category)
