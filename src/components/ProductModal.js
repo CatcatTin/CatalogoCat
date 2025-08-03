@@ -115,12 +115,7 @@ export class ProductModal {
             <div class="product-installments">
               ${product.installments || 12} cuotas de $${this.formatPrice(installmentPrice)}
             </div>
-            ${product.on_sale && product.sale_price ? `
-              <div class="product-original-price">Precio original: $${this.formatPrice(product.price)}</div>
-              <div class="product-sale-price">Precio oferta: $${this.formatPrice(product.sale_price)}</div>
-            ` : `
-              <div class="product-price">Precio: $${this.formatPrice(product.price)}</div>
-            `}
+      
           </div>
           
           <div class="product-actions">
