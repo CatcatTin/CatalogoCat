@@ -703,7 +703,7 @@ footer .footerCarpi {
 }
 
 .carrito__footer:hover {
-  background: black;
+  background: red;
 }
 
 .carrito__footer:hover h5 {
