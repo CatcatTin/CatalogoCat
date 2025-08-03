@@ -144,6 +144,69 @@ header .barracentral__buscador__contacto a i {
   }
 }
 
+header .barracentral__buscador__contacto a:hover {
+  color: #170ad8 !important;
+}
+
+/* Carrito en el encabezado */
+.carrito-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  color: #6e69b6;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+}
+/* color al que cambia cuando pasas sobre el carrito */
+.carrito-header:hover {
+  color: #170ad8;
+  transform: scale(1.1);
+}
+/* numero en el carrito del encabezado */
+.numerito-header {
+  position: absolute;
+  top: -1.1rem;
+  right: -1.5rem;
+  background: #6e69b6;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.numerito-header p {
+  color: white;
+  margin: 0;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.numerito-header #numeritoHeader.shake {
+  animation: shake 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+}
+
+@media screen and (max-width: 576px) {
+  header .barracentral__buscador__contacto a span {
+    display: none;
+  }
+  
+  .carrito-header {
+    font-size: 2rem;
+  }
+  
+  .numerito-header {
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 1.1rem;
+  }
+}
+
 header .barracentral__buscador__search {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -229,7 +292,7 @@ header .barracentral__buscador__search .botonbuscar {
 
 header .barracentral__buscador__search .botonbuscar:hover {
   color: white;
-  background: #fd571b;
+  background: #170ad8;
 }
 
 footer {
@@ -306,7 +369,32 @@ footer .accesoalpanel a {
 }
 
 footer .accesoalpanel a:hover {
-  color: #170ad8 !important;
+  color: #ffffff !important;
+}
+
+/* Botón de administración en el pie */
+.admin-icon-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 50px;
+  /* background: #585858e0;
+  color: #ffffff;
+  border-radius: 50%; */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 22px;
+}
+
+.admin-icon-footer:hover {
+  color: #000000;
+  /* background: #0c0c0c; */
+  transform: scale(1.1);
+}
+
+.admin-icon-footer i {
+  color: #6d6d6d(110, 39, 39);
 }
 
 footer .footerCarpi {
@@ -452,14 +540,14 @@ footer .footerCarpi {
   width: 100%;
 }
 
-.hero__slider .carousel-control-next, .hero__slider .carousel-control-prev {
+/* .hero__slider .carousel-control-next, .hero__slider .carousel-control-prev {
   width: 10%;
 }
 
 .hero__slider .carousel-control-next-icon, .hero__slider .carousel-control-prev-icon {
   width: 3rem;
   height: 3rem;
-}
+} */
 
 .carrito {
   position: fixed;
@@ -745,66 +833,6 @@ footer .footerCarpi {
   -webkit-transition: all .3s;
   transition: all .3s;
   margin-left: 1rem;
-}
-
-#botonCarrito {
-  position: fixed;
-  z-index: 99;
-  bottom: 1rem;
-  right: 1rem;
-  font-size: 4.6rem;
-  background: white;
-  padding: .5rem 1.5rem;
-  border-radius: 1rem;
-  -webkit-box-shadow: 0px 0px 10px #b1b1b1;
-          box-shadow: 0px 0px 10px #b1b1b1;
-  cursor: pointer;
-  visibility: visible;
-  opacity: 1;
-  -webkit-transition: opacity .3s linear;
-  transition: opacity .3s linear;
-}
-
-#botonCarrito.cerrado {
-  visibility: hidden;
-  opacity: 0;
-  -webkit-transition: visibility 0s .3s, opacity .3s linear;
-  transition: visibility 0s .3s, opacity .3s linear;
-}
-
-#botonCarrito .numerito {
-  position: absolute;
-  top: -1rem;
-  left: -1rem;
-  background: #170ad8;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-#botonCarrito .numerito #numerito.shake {
-  -webkit-animation: shake 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
-  animation: shake 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
-}
-
-#botonCarrito .numerito p {
-  font-size: 1.4rem;
-  color: white;
-  margin: 0;
-  line-height: 1;
-}
-
-#botonCarrito i {
-  color: #170ad8;
 }
 
 .swal-footer {
