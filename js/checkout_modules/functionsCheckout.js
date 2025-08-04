@@ -1,5 +1,6 @@
 import * as DomElements from "./domElements.js";
 import { formTusDetalles } from "./domElements.js";
+import { supabase } from "../../src/config/supabase.js";
 
 // Setea los precios con los decimales separados por coma, en lugar de por punto
 function toLocaleFixed (num) {
@@ -9,26 +10,40 @@ function toLocaleFixed (num) {
     });
 };
 
+// SUPABASE INTEGRATION: Mostrar productos en checkout con información de cuotas
+// Usa datos: sku (product.id), titulo (product.name), precio (product.price), installments
 export function imprimirProductos (carritoAgregados) {
-  for (const producto of carritoAgregados) {
-    let checkoutProducto = document.createElement("div");
-    checkoutProducto.className = "checkoutProducto";
-    checkoutProducto.id = "check    outProducto" + producto.sku;
-    checkoutProducto.innerHTML = `
-      <div class="checkoutProducto__imagen">
-        <img src="${producto.imagen}" alt="${producto.titulo}">
-      </div>
-      <div class="checkoutProducto__titulo">${producto.titulo}</div>
-      <div class="checkoutProducto__cantidad">${producto.cantidad}</div>
-      <div class="checkoutProducto__precio">$${toLocaleFixed(producto.precio * producto.cantidad)}</div>
-    `;
-    DomElements.checkoutCarrito.appendChild(checkoutProducto);
-  }
+    for (const producto of carritoAgregados) {
+        // SUPABASE INTEGRATION: Calcular precio considerando ofertas
+        const precioUnitario = producto.on_sale && producto.sale_price ? 
+            producto.sale_price : producto.precio;
+        const precioTotal = precioUnitario * producto.cantidad;
+        const installmentPrice = precioUnitario / (producto.installments || 12);
+        
+        let checkoutProducto = document.createElement("div");
+        checkoutProducto.className = "checkoutProducto";
+        checkoutProducto.id = "checkoutProducto" + producto.sku; // product.id
+        checkoutProducto.innerHTML = `
+            <div class="checkoutProducto__imagen">
+                <img src="${producto.imagen}" alt="${producto.titulo}">
+            </div>
+            <div class="checkoutProducto__titulo">${producto.titulo}</div>
+            <div class="checkoutProducto__cuotas">${producto.installments || 12} x $${toLocaleFixed(installmentPrice)}</div>
+            <div class="checkoutProducto__cantidad">${producto.cantidad}</div>
+            <div class="checkoutProducto__precio">$${toLocaleFixed(precioTotal)}</div>
+        `;
+        DomElements.checkoutCarrito.appendChild(checkoutProducto);
+    }
 }
 
+// SUPABASE INTEGRATION: Calcular precio total considerando ofertas
 export function cargarPrecioTotal(carritoAgregados) {
-    // Suma los precios de todos los productos multiplicados por sus cantidades
-    let precioTotal = carritoAgregados.reduce((suma, productoAgregado) => suma + (productoAgregado.precio * productoAgregado.cantidad), 0);
+    // SUPABASE INTEGRATION: Suma precios considerando sale_price si on_sale es true
+    let precioTotal = carritoAgregados.reduce((suma, productoAgregado) => {
+        const precioUnitario = productoAgregado.on_sale && productoAgregado.sale_price ? 
+            productoAgregado.sale_price : productoAgregado.precio;
+        return suma + (precioUnitario * productoAgregado.cantidad);
+    }, 0);
     DomElements.checkoutTotal.textContent = `$${toLocaleFixed(precioTotal)}`;
     DomElements.botonConfirmarPrecioTotal.textContent = `$${toLocaleFixed(precioTotal)}`;
 }
@@ -99,8 +114,55 @@ function finalizarCompra(event) {
     DomElements.pasos__pago.classList.add("disabled");
     DomElements.pasos__confirmacion.classList.remove("disabled");
     
+    // SUPABASE INTEGRATION: Limpiar carrito después de compra exitosa
     let carritoAgregados = []; // Redeclara el array de los productos en el Carrito
     localStorage.setItem("productos", JSON.stringify(carritoAgregados)); // y lo vuelve a cargar vacío en el LS
     localStorage.setItem("numerito", 0);
     localStorage.setItem("precioTotal", 0);
+}
+
+// SUPABASE INTEGRATION: Nueva función para guardar pedido en base de datos
+export async function guardarPedidoEnBaseDatos(datosCliente, carritoAgregados) {
+    try {
+        // Calcular total considerando ofertas
+        const total = carritoAgregados.reduce((suma, producto) => {
+            const precioUnitario = producto.on_sale && producto.sale_price ? 
+                producto.sale_price : producto.precio;
+            return suma + (precioUnitario * producto.cantidad);
+        }, 0);
+        
+        // Preparar items con información completa
+        const items = carritoAgregados.map(producto => ({
+            product_id: producto.sku,           // product.id
+            name: producto.titulo,              // product.name
+            price: producto.on_sale && producto.sale_price ? producto.sale_price : producto.precio,
+            quantity: producto.cantidad,
+            installments: producto.installments || 12,
+            image_url: producto.imagen
+        }));
+        
+        const { data, error } = await supabase
+            .from('orders')
+            .insert([{
+                user_email: datosCliente.email,
+                user_name: `${datosCliente.nombre} ${datosCliente.apellido}`,
+                user_doc: datosCliente.documento || '',
+                user_phone: datosCliente.telefono,
+                user_address: `${datosCliente.calle} ${datosCliente.numero}, ${datosCliente.ciudad}, ${datosCliente.provincia}`,
+                user_postalcode: datosCliente.codigoPostal,
+                user_recept: datosCliente.nombre,
+                items: items,
+                total: total,
+                status: 'pending'
+            }])
+            .select();
+        
+        if (error) throw error;
+        
+        console.log('Pedido guardado en Supabase:', data);
+        return data[0];
+    } catch (error) {
+        console.error('Error guardando pedido:', error);
+        throw error;
+    }
 }

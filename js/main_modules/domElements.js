@@ -2,7 +2,9 @@ export const listadoProductos = document.getElementById("listadoProductos");
 export const carritoProductos = document.getElementById("carritoProductos");
 export const buscadorTop = document.getElementById("buscadorTop");
 export const botonesCategorias = document.querySelectorAll(".cat");
-export const botonCarrito = document.getElementById("botonCarrito");
+// SUPABASE INTEGRATION: Nuevo carrito en header reemplaza botón flotante
+export const botonCarritoHeader = document.getElementById("botonCarritoHeader");
+export const numeritoHeader = document.getElementById("numeritoHeader");
 export const cerrarCarrito = document.getElementById("cerrarCarrito");
 export const carrito = document.getElementById("carrito");
 export const carritoTotal = document.getElementById("carritoTotal");

@@ -4,9 +4,10 @@ import { imprimirProductos } from "./functionsProductos.js";
 import { imprimirProductosEnCarrito } from "./functionsProductos.js";
 import { numerito } from "./functionsProductos.js";
 import * as DomElements from "./domElements.js";
+import { supabase } from "../../src/config/supabase.js";
 
-
-// Reasigna todos los botones de Agregar al carrito cada vez que cambian los productos que se muestran
+// SUPABASE INTEGRATION: Botones agregar al carrito con datos de base de datos
+// Busca productos por product.id (sku) en lugar de array local
 export function asignarBotonesAgregar(productos) {
     const botonesAgregar = document.querySelectorAll('.producto__agregar');
     botonesAgregar.forEach((botonAgregar) => {
@@ -18,10 +19,10 @@ export function asignarBotonesAgregar(productos) {
   
 function botonAgregarClicked(event, productos) {
     const productoAgregadoPadre = event.target.closest('.producto');
-    // Busca el producto por SKU en el array fetcheado
+    // SUPABASE INTEGRATION: Busca producto por ID (sku = product.id)
     const productoAgregado = productos.find((buscarProducto) => buscarProducto.sku == productoAgregadoPadre.id);
 
-    // Lo busca en el array de productos en el Carrito
+    // Busca en carrito por sku (product.id)
     const estaEnCarrito = carritoAgregados.find((buscarSiEsta) => buscarSiEsta.sku == productoAgregadoPadre.id);
     if (estaEnCarrito) {
         estaEnCarrito.cantidad++; // Si está en el Carrito, solo aumenta la cantidad
@@ -50,7 +51,7 @@ export function asignarBotonesMasMenos() {
 
 function botonMasClicked(event) {
     const productoAgregadoPadre = event.target.closest('.nuevoProducto');
-    // Busca el producto en el array fetcheado
+    // SUPABASE INTEGRATION: Busca por sku (product.id)
     const productoAgregado = carritoAgregados.find((buscarProducto) => "agregado" + buscarProducto.sku == productoAgregadoPadre.id);
   
     productoAgregado.cantidad++;
@@ -59,7 +60,7 @@ function botonMasClicked(event) {
 
 function botonMenosClicked(event) {
     const productoAgregadoPadre = event.target.closest('.nuevoProducto');
-    // Busca el producto en el array fetcheado
+    // SUPABASE INTEGRATION: Busca por sku (product.id)
     const productoAgregado = carritoAgregados.find((buscarProducto) => "agregado" + buscarProducto.sku == productoAgregadoPadre.id);
     
     if (productoAgregado.cantidad > 1) {
@@ -79,7 +80,7 @@ export function asignarBotonesBorrar() {
 
 function botonBorrarClicked(event) {
     const productoAgregadoPadre = event.target.closest('.nuevoProducto');
-    // Busca el producto en el array fetcheado
+    // SUPABASE INTEGRATION: Busca por sku (product.id)
     const productoAgregado = carritoAgregados.find((buscarProducto) => "agregado" + buscarProducto.sku == productoAgregadoPadre.id);
 
     const index = carritoAgregados.indexOf(productoAgregado); // Busca el index de este producto en el array
@@ -124,25 +125,29 @@ function botonVaciarClicked() {
 }
 
 
-// Eventos de abrir y cerrar el carrito
-DomElements.botonCarrito.addEventListener("click", function(){
+// SUPABASE INTEGRATION: Eventos carrito header (nuevo botón en encabezado)
+DomElements.botonCarritoHeader.addEventListener("click", function(){
     DomElements.carrito.classList.remove("cerrado");
-    DomElements.botonCarrito.classList.add("cerrado");
 }); 
 
 DomElements.cerrarCarrito.addEventListener("click", function(){
     DomElements.carrito.classList.add("cerrado");
-    DomElements.botonCarrito.classList.remove("cerrado");
 });
 
-// Ocultar el div de Carrito si está vacío después de alguna acción
+// SUPABASE INTEGRATION: Actualizar numerito en header
 export function estaVacioCheck() {
+    // Actualizar numerito en header
+    if (DomElements.numeritoHeader) {
+        DomElements.numeritoHeader.textContent = numerito;
+        
+        // Animación shake en header
+        DomElements.numeritoHeader.classList.remove("shake");
+        DomElements.numeritoHeader.offsetWidth;
+        DomElements.numeritoHeader.classList.add("shake");
+    }
+    
     if(numerito == "0" || numerito == null) {
         DomElements.carrito.classList.add("cerrado");
-    } else {
-        if(DomElements.carrito.classList.contains("cerrado")){
-            DomElements.botonCarrito.classList.remove("cerrado");
-        }
     }
 }
 

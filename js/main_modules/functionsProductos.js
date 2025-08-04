@@ -1,6 +1,7 @@
 import * as Botones from "./botones.js";
 import * as DomElements from "./domElements.js";
 import * as WhatsApp from "./whatsapp.js";
+import { supabase } from "../../src/config/supabase.js";
 
 // Setea los precios con los decimales separados por coma, en lugar de por punto
 export function toLocaleFixed (num) {
@@ -10,14 +11,35 @@ export function toLocaleFixed (num) {
     });
 };
 
-// Imprime los productos en la home (BOTONES EN LA FIGURITA DEL PRODUCTO)
+// SUPABASE INTEGRATION: Imprime productos desde base de datos
+// Relaciones: product.id->sku, product.name->titulo, product.price->precio, product.category->categoria
+// Nuevos campos: product.installments, installmentPrice calculado
 export function imprimirProductos(listadoProductos, productos) {
     listadoProductos.innerHTML = "";
     for (const producto of productos) {
+        // Calcular precio de cuota (installmentPrice = precio / cuotas)
+        const installmentPrice = producto.precio / (producto.installments || 12);
+        const precioMostrar = producto.on_sale && producto.sale_price ? producto.sale_price : producto.precio;
+        const installmentPriceMostrar = precioMostrar / (producto.installments || 12);
+        
         let contenedorProducto = document.createElement("div");
         contenedorProducto.className = "producto";
-        contenedorProducto.id = producto.sku;
-        contenedorProducto.innerHTML = '\n        <div class="producto__img">\n            <img src="' + producto.imagen + '" alt="' + producto.titulo + '">\n        </div>\n        <h4 class="producto__titulo">' + producto.titulo.toUpperCase() + '</h4>\n        <h4 class="producto__precio">$<span>' + toLocaleFixed(producto.precio) + '</span></h4>\n        <div class="producto__agregar">AGREGAR AL PEDIDO</div>\n        <div class="producto__sinStock">SIN STOCK</div>\n        <div class="producto__whatsapp">\n            <i class="fab fa-whatsapp"></i>\n            <p>CONSULTAR POR WHATSAPP</p>\n        </div>\n        ';
+        contenedorProducto.id = producto.sku; // product.id
+        contenedorProducto.innerHTML = `
+        <div class="producto__img">
+            <img src="${producto.imagen}" alt="${producto.titulo}">
+        </div>
+        <h4 class="producto__titulo">${producto.titulo.toUpperCase()}</h4>
+        <div class="producto__cuotas">${producto.installments || 12} cuotas de $${toLocaleFixed(installmentPriceMostrar)}</div>
+        <h4 class="producto__precio">$<span>${toLocaleFixed(precioMostrar)}</span></h4>
+        ${producto.on_sale ? '<div class="producto__oferta">EN OFERTA</div>' : ''}
+        <div class="producto__agregar">AGREGAR AL PEDIDO</div>
+        ${producto.stock <= 0 ? '<div class="producto__sinStock">SIN STOCK</div>' : ''}
+        <div class="producto__whatsapp">
+            <i class="fab fa-whatsapp"></i>
+            <p>CONSULTAR POR WHATSAPP</p>
+        </div>
+        `;
         listadoProductos.appendChild(contenedorProducto);
     }
 
@@ -25,42 +47,83 @@ export function imprimirProductos(listadoProductos, productos) {
     WhatsApp.asignarBotonesWhatsApp(productos);
 }
 
+// SUPABASE INTEGRATION: Función para cargar productos desde base de datos
+export async function loadProductsFromDatabase() {
+    try {
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        
+        // Transformar datos de Supabase al formato esperado
+        return data.map(product => ({
+            sku: product.id,                    // product.id -> sku
+            titulo: product.name,               // product.name -> titulo
+            imagen: product.image_url,          // product.image_url -> imagen
+            precio: product.price,              // product.price -> precio
+            categoria: product.category,        // product.category -> categoria
+            installments: product.installments || 12,
+            sale_price: product.sale_price,
+            on_sale: product.on_sale || false,
+            stock: product.stock || 0
+        }));
+    } catch (error) {
+        console.error('Error cargando productos:', error);
+        return [];
+    }
+}
+
 export let carritoAgregados = []; // Declara el array de los productos agregados al Carrito
 
-// Imprime los productos en el Carrito
+// SUPABASE INTEGRATION: Imprime productos en carrito con información de cuotas
+// Muestra: cantidad de cuotas, precio por cuota (installmentPrice), precio total
 export function imprimirProductosEnCarrito() {
     carritoProductos.innerHTML = "";
     carritoAgregados.forEach((productoAgregado) => {
+        // Calcular precio por cuota para mostrar en carrito
+        const precioUnitario = productoAgregado.on_sale && productoAgregado.sale_price ? 
+            productoAgregado.sale_price : productoAgregado.precio;
+        const installmentPrice = precioUnitario / (productoAgregado.installments || 12);
+        const precioTotalProducto = precioUnitario * productoAgregado.cantidad;
+        
         let nuevoProducto = document.createElement("div");
         nuevoProducto.className = "nuevoProducto";
-        nuevoProducto.id = "agregado" + productoAgregado.sku;
+        nuevoProducto.id = "agregado" + productoAgregado.sku; // product.id
         nuevoProducto.innerHTML = `
             <div class="carritoImagen">
-            <img src="${productoAgregado.imagen}" alt="${productoAgregado.titulo}">
+                <img src="${productoAgregado.imagen}" alt="${productoAgregado.titulo}">
             </div>
             <div class="carritoTitulo">${productoAgregado.titulo}</div>
+            <div class="carritoCuotas">${productoAgregado.installments || 12} x $${toLocaleFixed(installmentPrice)}</div>
             <div class="carritoCantidad">
-            <div class="menos">-</div>
-            <div class="cant">${productoAgregado.cantidad}</div>
-            <div class="mas">+</div>
+                <div class="menos">-</div>
+                <div class="cant">${productoAgregado.cantidad}</div>
+                <div class="mas">+</div>
             </div>
-            <div class="carritoPrecio">$${toLocaleFixed(productoAgregado.precio * productoAgregado.cantidad)}</div>
+            <div class="carritoPrecio">$${toLocaleFixed(precioTotalProducto)}</div>
             <div class="carritoBorrar"><i class="fas fa-trash-alt"></i></div>
         `;
         carritoProductos.appendChild(nuevoProducto);
-  });
+    });
 
-  Botones.asignarBotonesMasMenos();
-  Botones.asignarBotonesBorrar();
-  actualizarPrecioTotal();
-  actualizarNumerito();
-  Botones.estaVacioCheck(); // Chequea si el Carrito quedó vacío para ocultarlo
-  localStorage.setItem("productos", JSON.stringify(carritoAgregados));
+    Botones.asignarBotonesMasMenos();
+    Botones.asignarBotonesBorrar();
+    actualizarPrecioTotal();
+    actualizarNumerito();
+    Botones.estaVacioCheck(); // Chequea si el Carrito quedó vacío para ocultarlo
+    localStorage.setItem("productos", JSON.stringify(carritoAgregados));
 }
 
+// SUPABASE INTEGRATION: Actualizar precio total considerando ofertas y precios de venta
 function actualizarPrecioTotal() {
-    // Suma todos los precios de los productos en el array multiplicado por sus cantidades
-    const precioTotal = carritoAgregados.reduce((suma, producto) => suma + (producto.precio * producto.cantidad), 0); 
+    // Suma precios considerando ofertas (sale_price si on_sale es true)
+    const precioTotal = carritoAgregados.reduce((suma, producto) => {
+        const precioUnitario = producto.on_sale && producto.sale_price ? 
+            producto.sale_price : producto.precio;
+        return suma + (precioUnitario * producto.cantidad);
+    }, 0); 
     carritoTotal.textContent = toLocaleFixed(precioTotal);
     
     localStorage.setItem("precioTotal", precioTotal);
@@ -80,8 +143,8 @@ function actualizarNumerito() {
     localStorage.setItem("numerito", numerito);
 };
 
-// Obtiene el numerito desde el LS
-// Si es mayor a cero, carga el carrito que tenemos guardado en el LS
+// SUPABASE INTEGRATION: Cargar carrito desde localStorage manteniendo compatibilidad
+// Los productos guardados mantienen la estructura: sku=product.id, titulo=product.name, etc.
 numerito = localStorage.getItem("numerito");
 if(numerito > 0) {
     carritoAgregados = localStorage.getItem("productos");

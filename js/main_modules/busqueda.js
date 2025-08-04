@@ -2,12 +2,17 @@ import { imprimirProductos } from "./functionsProductos.js";
 import { listadoProductos } from "./domElements.js";
 import { asignarBotonVerTodos } from "./botones.js";
 import { botonesCategorias } from "./domElements.js";
+import { supabase } from "../../src/config/supabase.js";
 
-// Función al enviar el formulario de búsqueda
+// SUPABASE INTEGRATION: Búsqueda en base de datos
+// Busca en product.name (titulo) y product.category (categoria)
 export function buscar(event, productos) {
     event.preventDefault();
     listadoProductos.scrollIntoView();
     let busqueda = buscadorTop.children[0].value;
+    
+    // SUPABASE INTEGRATION: Filtrar productos de base de datos
+    // Busca en titulo (product.name) y categoria (product.category)
     const result = productos.filter(
         producto =>
         producto.categoria.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -40,7 +45,8 @@ export function buscar(event, productos) {
     buscadorTop.children[0].value = ""; // Se vacía el input del buscador
 }
 
-// Función al hacer click en alguna categoría
+// SUPABASE INTEGRATION: Filtro por categoría desde base de datos
+// Filtra por product.category (categoria)
 export function categoriaClick(event, productos) {
     listadoProductos.scrollIntoView();
     botonesCategorias.forEach((botonCategoria) => {
@@ -48,6 +54,7 @@ export function categoriaClick(event, productos) {
     });
     event.target.classList.add("active");
     
+    // SUPABASE INTEGRATION: Filtrar por categoria (product.category)
     const result = productos.filter(producto => producto.categoria === event.target.textContent);
     imprimirProductos(listadoProductos, result);
 
@@ -75,4 +82,60 @@ export function categoriaClick(event, productos) {
     }
 
     asignarBotonVerTodos(productos);
+}
+
+// SUPABASE INTEGRATION: Nueva función para búsqueda directa en base de datos
+export async function buscarEnBaseDatos(termino) {
+    try {
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .or(`name.ilike.%${termino}%,category.ilike.%${termino}%,description.ilike.%${termino}%`);
+        
+        if (error) throw error;
+        
+        // Transformar a formato esperado
+        return data.map(product => ({
+            sku: product.id,                    // product.id -> sku
+            titulo: product.name,               // product.name -> titulo
+            imagen: product.image_url,          // product.image_url -> imagen
+            precio: product.price,              // product.price -> precio
+            categoria: product.category,        // product.category -> categoria
+            installments: product.installments || 12,
+            sale_price: product.sale_price,
+            on_sale: product.on_sale || false,
+            stock: product.stock || 0
+        }));
+    } catch (error) {
+        console.error('Error en búsqueda:', error);
+        return [];
+    }
+}
+
+// SUPABASE INTEGRATION: Filtrar por categoría directamente en base de datos
+export async function filtrarPorCategoria(categoria) {
+    try {
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('category', categoria);
+        
+        if (error) throw error;
+        
+        // Transformar a formato esperado
+        return data.map(product => ({
+            sku: product.id,                    // product.id -> sku
+            titulo: product.name,               // product.name -> titulo
+            imagen: product.image_url,          // product.image_url -> imagen
+            precio: product.price,              // product.price -> precio
+            categoria: product.category,        // product.category -> categoria
+            installments: product.installments || 12,
+            sale_price: product.sale_price,
+            on_sale: product.on_sale || false,
+            stock: product.stock || 0
+        }));
+    } catch (error) {
+        console.error('Error filtrando por categoría:', error);
+        return [];
+    }
 }
