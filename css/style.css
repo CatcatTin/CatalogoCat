@@ -397,7 +397,7 @@ footer .accesoalpanel a:hover {
   color: #6d6d6d(110, 39, 39);
 }
 
-/*footer .footerCarpi {
+footer .footerCarpi {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -409,7 +409,7 @@ footer .accesoalpanel a:hover {
           justify-content: center;
   font-size: 1.4rem;
   color: #6d6d6d;
-}*/
+}
 
 .hero__categorias {
   display: -webkit-box;
