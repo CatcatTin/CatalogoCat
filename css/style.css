@@ -557,7 +557,7 @@ footer .footerCarpi {
   width: 500px;
   max-height: 600px;
   border-radius: 2rem;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
