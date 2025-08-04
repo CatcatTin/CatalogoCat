@@ -100,6 +100,10 @@ export class ProductModal {
           <div class="product-image-gallery">
             ${this.renderImageGallery(product)}
           </div>
+           <div class="product-pricing">
+            <div class="product-installments">
+              ${product.installments || 12} cuotas de $${this.formatPrice(installmentPrice)}
+            </div>
         </div>
         
         <div class="product-modal-right">
