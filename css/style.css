@@ -1015,6 +1015,42 @@ footer .footerCarpi {
   }
 }
 
+/* SUPABASE INTEGRATION: Estilos para información de cuotas en productos */
+.producto__cuotas {
+  color: #170ad8;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.producto__oferta {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #dc3545;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  z-index: 2;
+}
+
+/* SUPABASE INTEGRATION: Estilos para información de cuotas en carrito */
+.carritoCuotas {
+  font-size: 1.3rem;
+  color: #666;
+  text-align: center;
+}
+
+/* SUPABASE INTEGRATION: Estilos para información de cuotas en checkout */
+.checkoutProducto__cuotas {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+}
+
 .productos .producto__agregar, .productos .producto__sinStock {
   font-size: 1.5rem;
   text-align: center;
