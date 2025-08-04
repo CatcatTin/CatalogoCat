@@ -453,7 +453,7 @@ footer .footerCarpi {
   border-radius: 2rem;
   overflow: hidden;
   overflow-y: auto;
-  max-height: 110vh;
+  max-height: 150vh;
   background: white;
   border: .5rem solid white;
   position: absolute;
