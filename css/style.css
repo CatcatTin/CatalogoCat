@@ -550,7 +550,7 @@ footer .footerCarpi {
 } */
 
 .carrito {
-  position: fixed;
+  position: relative;
   z-index: 99;
   bottom: 1rem;
   right: 1rem;
