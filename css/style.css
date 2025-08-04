@@ -351,7 +351,7 @@ footer .accesoalpanel {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: right 25px;
+  -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: center;
