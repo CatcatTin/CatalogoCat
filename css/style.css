@@ -896,7 +896,7 @@ footer .footerCarpi {
   -ms-grid-columns: 1fr 1fr 1fr 1fr;
       grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 2rem;
-  padding: 1rem;
+  padding: 5rem;
   min-height: 70vh;
 }
 
