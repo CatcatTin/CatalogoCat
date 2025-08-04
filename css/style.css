@@ -347,7 +347,7 @@ footer .footerlogo img {
   width: 150px;
 }
 
-footer .accesoalpanel {
+/*footer .accesoalpanel {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -359,7 +359,7 @@ footer .accesoalpanel {
           justify-content: center;
   font-size: 2.4rem;
   gap: 1rem;
-}
+}*/
 
 footer .accesoalpanel a {
   cursor: pointer;
