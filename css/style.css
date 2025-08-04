@@ -330,7 +330,7 @@ footer .tarjetascorreos {
   }
 }
 
-/*footer .footerlogo {
+footer .footerlogo {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -370,7 +370,7 @@ footer .accesoalpanel a {
 
 footer .accesoalpanel a:hover {
   color: #ffffff !important;
-}*/
+}
 
 /* Botón de administración en el pie */
 .admin-icon-footer {
