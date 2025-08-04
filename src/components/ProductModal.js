@@ -117,6 +117,12 @@ export class ProductModal {
               Consultar por WhatsApp
             </button>
           </div>
+               ${product.stock !== null ? `
+            <div class="product-stock">
+              <i class="fas fa-box"></i>
+              Stock disponible: ${product.stock} unidades
+            </div>
+          ` : ''}
         </div>
         
         <div class="product-modal-right">
@@ -130,12 +136,7 @@ export class ProductModal {
           
     
           
-          ${product.stock !== null ? `
-            <div class="product-stock">
-              <i class="fas fa-box"></i>
-              Stock disponible: ${product.stock} unidades
-            </div>
-          ` : ''}
+     
         </div>
       </div>
     `
