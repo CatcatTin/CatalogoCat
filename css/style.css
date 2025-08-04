@@ -897,7 +897,7 @@ footer .footerCarpi {
       grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 2rem;
   padding: 3rem;
-  min-height: 70vh;
+  min-height: 90vh;
 }
 
 @media screen and (max-width: 576px) {
