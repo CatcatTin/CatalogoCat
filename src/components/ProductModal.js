@@ -128,7 +128,7 @@ export class ProductModal {
         <div class="product-modal-right">
           ${badge}
           
-          <h2 class="product-modal-title">${product.name || 'Producto sin nombre'}</h2>
+          <h2 class="product-modal-title">${product.description || 'Producto sin nombre'}</h2>
           
           <div class="product-description">
             ${formattedDescription}
