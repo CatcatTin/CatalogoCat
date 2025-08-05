@@ -95,7 +95,7 @@ export class ProductModal {
       <div class="product-modal-grid">
         <div class="product-modal-left">
           <div class="product-main-image">
-            <img id="productMainImage" src="${product.image_url || 'https://via.placeholder.com/400'}" alt="${product.name}">
+            <img id="productMainImage" src="${product.image_url || 'https://via.placeholder.com/400'}" alt="${product.description}">
           </div>
           <div class="product-image-gallery">
             ${this.renderImageGallery(product)}
