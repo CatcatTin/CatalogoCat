@@ -254,7 +254,7 @@ export class ProductDisplay {
     return `
       <div class="producto" id="${product.id}">
         <div class="producto__img">
-          <img src="${product.image_url || 'https://via.placeholder.com/200'}" alt="${product.name}">
+          <img src="${product.image_url || 'https://via.placeholder.com/200'}" alt="${product.description}">
         </div>
         <h4 class="producto__titulo">${(product.name || 'Producto sin nombre').toUpperCase()}</h4>
         <div class="producto__precio-cuotas">
