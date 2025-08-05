@@ -94,15 +94,8 @@ export class AdminPanel {
   }
 
   createAdminIcon() {
-    const targetElement = document.querySelector('.barracentral__buscador__contacto')
-    if (!targetElement) return
-
-    const adminIcon = document.createElement('div')
-    adminIcon.className = 'admin-icon'
-    adminIcon.innerHTML = '<i class="fas fa-cog"></i>'
-    adminIcon.title = 'Panel de Administración'
-    
-    targetElement.appendChild(adminIcon)
+    // Admin icon is now in footer HTML - no need to create it dynamically
+    console.log('Admin icon functionality transferred to footer')
   }
 
   createAdminPanel() {
@@ -199,7 +192,7 @@ export class AdminPanel {
   setupEventListeners() {
     // Admin icon click
     document.addEventListener('click', (e) => {
-      if (e.target.closest('.admin-icon')) {
+      if (e.target.closest('.admin-icon-footer')) {
         this.togglePanel()
       }
     })
@@ -214,7 +207,7 @@ export class AdminPanel {
     // Close panel when clicking outside
     document.addEventListener('click', (e) => {
       const panel = document.getElementById('adminPanel')
-      if (panel && this.isOpen && !panel.contains(e.target) && !e.target.closest('.admin-icon')) {
+      if (panel && this.isOpen && !panel.contains(e.target) && !e.target.closest('.admin-icon-footer')) {
         this.closePanel()
       }
     })

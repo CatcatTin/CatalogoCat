@@ -379,22 +379,23 @@ footer .accesoalpanel a:hover {
   justify-content: center;
   width: 40px;
   height: 50px;
-  /* background: #585858e0;
-  color: #ffffff;
-  border-radius: 50%; */
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 22px;
+  color: #6d6d6d;
 }
 
 .admin-icon-footer:hover {
   color: #000000;
-  /* background: #0c0c0c; */
   transform: scale(1.1);
 }
 
 .admin-icon-footer i {
-  color: #6d6d6d(110, 39, 39);
+  color: inherit;
+}
+
+.admin-icon-footer i::before {
+  content: '\F3E5';
 }
 
 footer .footerCarpi {

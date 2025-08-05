@@ -1,23 +1,4 @@
 /* Admin Panel Styles */
-.admin-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: #170ad8;
-  color: white;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 16px;
-}
-
-.admin-icon:hover {
-  background: #0f0899;
-  transform: scale(1.1);
-}
-
 .admin-panel {
   position: fixed;
   top: 0;
