@@ -217,7 +217,7 @@ export class ProductModal {
   }
 
   openWhatsApp(product) {
-    const message = `Hola, quiero consultar sobre el producto *${product.name}*, que tiene un precio de *$${this.formatPrice(product.price)}*. Muchas gracias!`
+    const message = `Hola, quiero consultar sobre el producto *${product.description}*, que tiene un precio de *$${this.formatPrice(product.price)}*. Muchas gracias!`
     const whatsappUrl = `https://api.whatsapp.com/send?phone=+5491158102407&text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
