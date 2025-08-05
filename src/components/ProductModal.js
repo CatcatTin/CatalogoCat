@@ -147,7 +147,6 @@ export class ProductModal {
 
   renderImageGallery(product) {
     const images = [
-      product.image_url,
       product.image1_url,
       product.image2_url,
       product.image3_url
