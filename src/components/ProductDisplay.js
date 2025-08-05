@@ -256,7 +256,7 @@ export class ProductDisplay {
         <div class="producto__img">
           <img src="${product.image_url || 'https://via.placeholder.com/200'}" alt="${product.description}">
         </div>
-        <h4 class="producto__titulo">${(product.name || 'Producto sin nombre').toUpperCase()}</h4>
+        <h4 class="producto__titulo">${(product.description || 'Producto sin nombre').toUpperCase()}</h4>
         <div class="producto__precio-cuotas">
           ${product.installments || 12} cuotas de $<span>${this.formatPrice(installmentDisplayPrice)}</span>
         </div>
